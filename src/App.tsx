@@ -1,22 +1,24 @@
 import { AppBar, IconButton, Toolbar, Typography } from '@mui/material';
-import { useEffect } from 'react';
 import './App.css';
 import { AddCityForm } from './components/AddCityForm/AddCityForm';
 import { useAppDispatch, useAppSelector } from './hooks/hooks';
-import { getWeatherCurrentCity } from './state/weather-reducer';
+import { getCurrentCityNameRequest, getWeatherCurrentCity } from './state/weather-reducer';
+import { WeatherCard } from './components/WeatherCard/WeatherCard';
 
 import s from './components/AddCityForm/style.module.css';
+import s_weatherCard from './components/WeatherCard/style.module.css';
 
 function App() {
   const dispatch = useAppDispatch();
-  const currentCityName = useAppSelector((state) => state.weather.cityNameRequest);
+  // const currentCityName = useAppSelector((state) => state.weather.cityNameRequest);
   const weather = useAppSelector((state) => state.weather.weather);
 
-  useEffect(() => {
-    dispatch(getWeatherCurrentCity({ cityName: currentCityName[0] }));
-  }, [dispatch, currentCityName]);
-
   console.log(weather);
+
+  const addCity = (city: string) => {
+    dispatch(getCurrentCityNameRequest({ cityNameRequest: city }));
+    dispatch(getWeatherCurrentCity({ cityName: city }));
+  };
 
   return (
     <div className="App">
@@ -30,7 +32,12 @@ function App() {
       </AppBar>
       <div className="container">
         <div className={s.addCityForm}>
-          <AddCityForm />
+          <AddCityForm addCity={addCity} />
+        </div>
+        <div className={s_weatherCard.wrapper}>
+          {weather.map((weather) => {
+            return <WeatherCard key={weather.id} weather={weather} />;
+          })}
         </div>
       </div>
     </div>
