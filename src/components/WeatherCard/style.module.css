@@ -12,3 +12,26 @@
   min-width: 300px;
   /* flex: 1; */
 }
+.thisDayWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.thisDayTemp {
+  font-size: 22px;
+  color: #243e9b;
+  font-weight: 600;
+}
+.thisDayCurrentDay {
+  font-weight: 500;
+}
+.thisDayTime,
+.thisDayCity {
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+.btnWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

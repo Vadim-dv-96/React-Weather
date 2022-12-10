@@ -11,8 +11,7 @@ export type DomainWeatherType = WeatherResponseType & {
 };
 
 export const initialState = {
-  cityNameRequest: [''],
-  // nameCityInCard: '',
+  cityNameRequest: [] as string[],
   weather: [] as WeatherStateType,
   error: '',
   loading: false,
@@ -23,9 +22,21 @@ export const getWeatherCurrentCity = createAsyncThunk(
   async (params: { cityName: string }, thunkApi) => {
     try {
       const coordinates = await GetCoordinatesAPI.getCoordinates(params.cityName);
-      debugger;
       // thunkApi.dispatch(setCityNameInCard({ cityName: coordinates.local_names.ru }));
-      debugger;
+      const resWeather = await GetWeatherAPI.getWeather(coordinates.lat, coordinates.lon);
+      return { resWeather, cityName: coordinates.local_names.ru };
+    } catch (err) {
+      const error: AxiosError = err as AxiosError;
+      console.log(error.message);
+      return thunkApi.rejectWithValue(error.message);
+    }
+  }
+);
+export const getWeatherReload = createAsyncThunk(
+  'weather/getWeatherReload',
+  async (params: { cityName: string }, thunkApi) => {
+    try {
+      const coordinates = await GetCoordinatesAPI.getCoordinates(params.cityName);
       const resWeather = await GetWeatherAPI.getWeather(coordinates.lat, coordinates.lon);
       return { resWeather, cityName: coordinates.local_names.ru };
     } catch (err) {
@@ -41,12 +52,18 @@ const slice = createSlice({
   initialState,
   reducers: {
     getCurrentCityNameRequest: (state, action: PayloadAction<{ cityNameRequest: string }>) => {
-      state.cityNameRequest.push(action.payload.cityNameRequest);
+      state.cityNameRequest.push(action.payload.cityNameRequest.toLowerCase());
+      if (!!state.cityNameRequest) {
+        localStorage.setItem('city', JSON.stringify(state.cityNameRequest));
+      }
     },
-    // setCityNameInCard: (state, action: PayloadAction<{ cityName: string }>) => {
-    //   debugger;
-    //   state.nameCityInCard = action.payload.cityName;
-    // },
+    deleteCityCard: (state, action: PayloadAction<{ cityName: string }>) => {
+      debugger;
+      state.weather = state.weather.filter((weather) => {
+        return weather.nameCityInCard !== action.payload.cityName;
+      });
+      debugger;
+    },
   },
   extraReducers(builder) {
     builder.addCase(getWeatherCurrentCity.pending, (state, action) => {
@@ -56,14 +73,33 @@ const slice = createSlice({
       state.loading = false;
       const newWeather = action.payload.resWeather;
       const domainNewWeather: DomainWeatherType = { ...newWeather, nameCityInCard: action.payload.cityName };
-      state.weather.push(domainNewWeather);
+      state.weather.unshift(domainNewWeather);
     });
     builder.addCase(getWeatherCurrentCity.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload as string;
+    });
+    builder.addCase(getWeatherReload.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(getWeatherReload.fulfilled, (state, action) => {
+      state.loading = false;
+      const newWeather = action.payload.resWeather;
+      const domainNewWeather: DomainWeatherType = { ...newWeather, nameCityInCard: action.payload.cityName };
+      // let currentCity = state.weather.filter((w) => {
+      //   return w.nameCityInCard === action.payload.cityName;
+      // });
+      // currentCity = [domainNewWeather];
+      state.weather = state.weather.map((weather) => {
+        return weather.nameCityInCard === action.payload.cityName ? domainNewWeather : weather;
+      });
+    });
+    builder.addCase(getWeatherReload.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload as string;
     });
   },
 });
 
-export const { getCurrentCityNameRequest } = slice.actions;
+export const { getCurrentCityNameRequest, deleteCityCard } = slice.actions;
 export const weatherReducer = slice.reducer;

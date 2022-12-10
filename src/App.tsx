@@ -1,25 +1,60 @@
-import { AppBar, IconButton, Toolbar, Typography } from '@mui/material';
+import { AppBar, IconButton, LinearProgress, Toolbar, Typography } from '@mui/material';
 import './App.css';
 import { AddCityForm } from './components/AddCityForm/AddCityForm';
 import { useAppDispatch, useAppSelector } from './hooks/hooks';
-import { getCurrentCityNameRequest, getWeatherCurrentCity } from './state/weather-reducer';
-import { WeatherCard } from './components/WeatherCard/WeatherCard';
+import {
+  deleteCityCard,
+  getCurrentCityNameRequest,
+  getWeatherCurrentCity,
+  getWeatherReload,
+} from './state/weather-reducer';
+import { useEffect } from 'react';
+import { WeatherList } from './components/WeatherList/WeatherList';
 
 import s from './components/AddCityForm/style.module.css';
 import s_weatherCard from './components/WeatherCard/style.module.css';
 
 function App() {
   const dispatch = useAppDispatch();
-  // const currentCityName = useAppSelector((state) => state.weather.cityNameRequest);
+  const isLoading = useAppSelector((state) => state.weather.loading);
+  const currentCityName = useAppSelector((state) => state.weather.cityNameRequest);
   const weather = useAppSelector((state) => state.weather.weather);
+  console.log('weather:', weather);
+  console.log('currentCityName:', currentCityName);
+  console.log('isLoading:', isLoading);
 
-  console.log(weather);
+  useEffect(() => {
+    const cities = JSON.parse(localStorage.getItem('city') as string);
+    if (cities) {
+      cities.forEach((cityStorage: string) => {
+        dispatch(getCurrentCityNameRequest({ cityNameRequest: cityStorage }));
+        dispatch(getWeatherCurrentCity({ cityName: cityStorage }));
+      });
+    }
+  }, [dispatch]);
 
   const addCity = (city: string) => {
+    debugger;
     dispatch(getCurrentCityNameRequest({ cityNameRequest: city }));
     dispatch(getWeatherCurrentCity({ cityName: city }));
   };
 
+  const deleteCity = (cityName: string) => {
+    const citiesStorage = JSON.parse(localStorage.getItem('city') as string);
+    if (citiesStorage) {
+      const filteredCity = citiesStorage.filter((city: string) => {
+        return city !== cityName.toLowerCase();
+      });
+      localStorage.setItem('city', JSON.stringify(filteredCity));
+    }
+    debugger;
+    dispatch(deleteCityCard({ cityName }));
+  };
+
+  const updateCurrentWeather = (cityUpdate: string) => {
+    dispatch(getWeatherReload({ cityName: cityUpdate }));
+  };
+  debugger;
   return (
     <div className="App">
       <AppBar position="static">
@@ -30,14 +65,25 @@ function App() {
           </Typography>
         </Toolbar>
       </AppBar>
+      {isLoading && <LinearProgress />}
       <div className="container">
         <div className={s.addCityForm}>
           <AddCityForm addCity={addCity} />
         </div>
         <div className={s_weatherCard.wrapper}>
-          {weather.map((weather) => {
-            return <WeatherCard key={weather.id} weather={weather} />;
-          })}
+          <WeatherList deleteCity={deleteCity} updateCurrentWeather={updateCurrentWeather} />
+          {/* <>
+            {weather.map((weather) => {
+              return (
+                <WeatherCard
+                  key={weather.id}
+                  weather={weather}
+                  deleteCity={deleteCity}
+                  updateCurrentWeather={updateCurrentWeather}
+                />
+              );
+            })}
+          </> */}
         </div>
       </div>
     </div>
