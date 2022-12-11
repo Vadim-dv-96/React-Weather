@@ -13,6 +13,9 @@ import { WeatherList } from './components/WeatherList/WeatherList';
 
 import s from './components/AddCityForm/style.module.css';
 import s_weatherCard from './components/WeatherCard/style.module.css';
+import { AutoSearch } from './components/AutocompleteSearch/AutoSearch';
+import { Route, Routes } from 'react-router-dom';
+import { DetailedWeather } from './components/DetailedWeather/DetailedWeather';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -34,7 +37,6 @@ function App() {
   }, [dispatch]);
 
   const addCity = (city: string) => {
-    debugger;
     dispatch(getCurrentCityNameRequest({ cityNameRequest: city }));
     dispatch(getWeatherCurrentCity({ cityName: city }));
   };
@@ -47,14 +49,14 @@ function App() {
       });
       localStorage.setItem('city', JSON.stringify(filteredCity));
     }
-    debugger;
+
     dispatch(deleteCityCard({ cityName }));
   };
 
   const updateCurrentWeather = (cityUpdate: string) => {
     dispatch(getWeatherReload({ cityName: cityUpdate }));
   };
-  debugger;
+
   return (
     <div className="App">
       <AppBar position="static">
@@ -67,24 +69,30 @@ function App() {
       </AppBar>
       {isLoading && <LinearProgress />}
       <div className="container">
-        <div className={s.addCityForm}>
-          <AddCityForm addCity={addCity} />
-        </div>
-        <div className={s_weatherCard.wrapper}>
-          <WeatherList deleteCity={deleteCity} updateCurrentWeather={updateCurrentWeather} />
-          {/* <>
-            {weather.map((weather) => {
-              return (
-                <WeatherCard
-                  key={weather.id}
-                  weather={weather}
-                  deleteCity={deleteCity}
-                  updateCurrentWeather={updateCurrentWeather}
-                />
-              );
-            })}
-          </> */}
-        </div>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <div className={s.addCityForm}>
+                  {/* <AddCityForm addCity={addCity} /> */}
+                  <AutoSearch addCity={addCity} />
+                </div>
+                <div className={s_weatherCard.wrapper}>
+                  <WeatherList deleteCity={deleteCity} updateCurrentWeather={updateCurrentWeather} />
+                </div>
+              </>
+            }
+          ></Route>
+          <Route
+            path="currentWeather/:city"
+            element={
+              <div className="DetailedWrapper">
+                <DetailedWeather />
+              </div>
+            }
+          ></Route>
+        </Routes>
       </div>
     </div>
   );

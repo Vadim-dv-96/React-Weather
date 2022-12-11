@@ -1,0 +1,42 @@
+.detailCard {
+  margin-top: 50px;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  height: 300px;
+  width: 750px;
+  position: relative;
+  background-color: cadetblue;
+}
+.cloudImg {
+  width: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+.detailCardContent {
+  position: relative;
+  z-index: 20;
+}
+.tempInfo {
+  background-color: #dfeded;
+  border-radius: 10px;
+}
+.tempInfoImg,
+.tempInfo {
+  width: 25px;
+  height: 25px;
+}
+.tempTitle {
+  color: #5e6370;
+  font-size: 15px;
+  font-weight: 500;
+}
+.feelsLike {
+  font-size: 15px;
+}
+.tempInfoWrapper {
+  display: flex;
+  gap: 20px;
+}
