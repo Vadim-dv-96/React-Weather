@@ -70,20 +70,21 @@ const slice = createSlice({
       state.loading = true;
     });
     builder.addCase(getWeatherCurrentCity.fulfilled, (state, action) => {
-      state.loading = false;
+      debugger;
       const newWeather = action.payload.resWeather;
       const domainNewWeather: DomainWeatherType = { ...newWeather, nameCityInCard: action.payload.cityName };
       state.weather.unshift(domainNewWeather);
+      state.loading = false;
+      debugger;
     });
     builder.addCase(getWeatherCurrentCity.rejected, (state, action) => {
-      state.loading = false;
       state.error = action.payload as string;
+      state.loading = false;
     });
     builder.addCase(getWeatherReload.pending, (state, action) => {
       state.loading = true;
     });
     builder.addCase(getWeatherReload.fulfilled, (state, action) => {
-      state.loading = false;
       const newWeather = action.payload.resWeather;
       const domainNewWeather: DomainWeatherType = { ...newWeather, nameCityInCard: action.payload.cityName };
       // let currentCity = state.weather.filter((w) => {
@@ -93,10 +94,11 @@ const slice = createSlice({
       state.weather = state.weather.map((weather) => {
         return weather.nameCityInCard === action.payload.cityName ? domainNewWeather : weather;
       });
+      state.loading = false;
     });
     builder.addCase(getWeatherReload.rejected, (state, action) => {
-      state.loading = false;
       state.error = action.payload as string;
+      state.loading = false;
     });
   },
 });
