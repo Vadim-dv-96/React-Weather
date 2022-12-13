@@ -8,7 +8,6 @@ type WeatherListPropsType = {
 
 export const WeatherList = ({ deleteCity, updateCurrentWeather }: WeatherListPropsType) => {
   const weather = useAppSelector((state) => state.weather.weather);
-  debugger;
   return (
     <>
       {weather.map((weather) => {

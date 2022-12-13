@@ -5,12 +5,11 @@
   justify-content: center;
 }
 .card {
-  /* margin-top: 20px; */
   border-radius: 20px;
   padding: 20px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   min-width: 300px;
-  /* flex: 1; */
+  background-color: lightblue;
 }
 .thisDayWrapper {
   display: flex;

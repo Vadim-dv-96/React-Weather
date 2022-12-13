@@ -1,4 +1,4 @@
-import { Button, IconButton } from '@mui/material';
+import { Button, IconButton, Tooltip } from '@mui/material';
 import { DomainWeatherType } from '../../state/weather-reducer';
 import Delete from '@mui/icons-material/Delete';
 import RefreshIcon from '@mui/icons-material/Refresh';
@@ -18,6 +18,7 @@ export const WeatherCard = ({ weather, deleteCity, updateCurrentWeather }: Weath
   const time = new Date(weather.dt * 1000);
   const hours = time.getHours();
   const minutes = time.getMinutes();
+  const getString = (num: number) => (num < 10 ? '0' + num : num);
 
   const deleteCityHandler = () => {
     deleteCity(weather.nameCityInCard);
@@ -26,7 +27,7 @@ export const WeatherCard = ({ weather, deleteCity, updateCurrentWeather }: Weath
   const updateCurrentWeatherHandler = () => {
     updateCurrentWeather(weather.nameCityInCard);
   };
-  debugger;
+
   return (
     <>
       {/* {isLoading ? (
@@ -48,14 +49,18 @@ export const WeatherCard = ({ weather, deleteCity, updateCurrentWeather }: Weath
       <div className={s.card}>
         <div className={s.btnWrapper}>
           <div className={s.reloadBtn}>
-            <IconButton onClick={updateCurrentWeatherHandler}>
-              <RefreshIcon fontSize="inherit" />
-            </IconButton>
+            <Tooltip arrow title="обновить">
+              <IconButton onClick={updateCurrentWeatherHandler}>
+                <RefreshIcon fontSize="inherit" />
+              </IconButton>
+            </Tooltip>
           </div>
           <div className={s.deleteBtn}>
-            <IconButton onClick={deleteCityHandler}>
-              <Delete fontSize="inherit" />
-            </IconButton>
+            <Tooltip arrow title="удалить">
+              <IconButton onClick={deleteCityHandler}>
+                <Delete fontSize="inherit" />
+              </IconButton>
+            </Tooltip>
           </div>
         </div>
         <div className={s.thisDay}>
@@ -70,14 +75,14 @@ export const WeatherCard = ({ weather, deleteCity, updateCurrentWeather }: Weath
             </div>
           </div>
           <div className={s.thisDayTime}>
-            Время: {hours}:{minutes}
+            Время расчета данных о погоде: {hours}:{getString(minutes)}
           </div>
           <div className={s.thisDayCity}>Город: {weather.nameCityInCard} </div>
         </div>
         <div className={s.btnInfo}>
           <NavLink style={{ textDecoration: 'none' }} to={`/currentWeather/${weather.nameCityInCard}`}>
             <Button size="small" variant="outlined">
-              LEARN MORE
+              узнать больше
             </Button>
           </NavLink>
         </div>

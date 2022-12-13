@@ -22,7 +22,6 @@ export const getWeatherCurrentCity = createAsyncThunk(
   async (params: { cityName: string }, thunkApi) => {
     try {
       const coordinates = await GetCoordinatesAPI.getCoordinates(params.cityName);
-      // thunkApi.dispatch(setCityNameInCard({ cityName: coordinates.local_names.ru }));
       const resWeather = await GetWeatherAPI.getWeather(coordinates.lat, coordinates.lon);
       return { resWeather, cityName: coordinates.local_names.ru };
     } catch (err) {
@@ -70,12 +69,10 @@ const slice = createSlice({
       state.loading = true;
     });
     builder.addCase(getWeatherCurrentCity.fulfilled, (state, action) => {
-      debugger;
       const newWeather = action.payload.resWeather;
       const domainNewWeather: DomainWeatherType = { ...newWeather, nameCityInCard: action.payload.cityName };
       state.weather.unshift(domainNewWeather);
       state.loading = false;
-      debugger;
     });
     builder.addCase(getWeatherCurrentCity.rejected, (state, action) => {
       state.error = action.payload as string;

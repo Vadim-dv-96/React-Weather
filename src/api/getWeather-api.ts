@@ -50,7 +50,7 @@ export type WeatherResponseType = {
 
 export const GetWeatherAPI = {
   async getWeather(lat: number, lon: number) {
-    const res = await instance.get<WeatherResponseType>(`weather?lat=${lat}&lon=${lon}&units=metric`);
+    const res = await instance.get<WeatherResponseType>(`weather?lat=${lat}&lon=${lon}&units=metric&lang=ru`);
     return res.data;
   },
 };
