@@ -58,13 +58,16 @@ const slice = createSlice({
       state.weather = state.weather.filter((weather) => {
         return weather.nameCityInCard !== action.payload.cityName;
       });
+      state.cityNameRequest = state.cityNameRequest.filter((city) => {
+        return city !== action.payload.cityName;
+      });
     },
-    setErrorAC(state, action: PayloadAction<{ error: null | string }>) {
+    setError(state, action: PayloadAction<{ error: null | string }>) {
       state.error = action.payload.error;
     },
   },
   extraReducers(builder) {
-    builder.addCase(getWeatherCurrentCity.pending, (state, action) => {
+    builder.addCase(getWeatherCurrentCity.pending, (state) => {
       state.loading = true;
     });
     builder.addCase(getWeatherCurrentCity.fulfilled, (state, action) => {
@@ -99,5 +102,5 @@ const slice = createSlice({
   },
 });
 
-export const { getCurrentCityNameRequest, deleteCityCard, setErrorAC } = slice.actions;
+export const { getCurrentCityNameRequest, deleteCityCard, setError } = slice.actions;
 export const weatherReducer = slice.reducer;

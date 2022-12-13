@@ -86,14 +86,7 @@ function App() {
               </>
             }
           ></Route>
-          <Route
-            path="currentWeather/:city"
-            element={
-              <div className="DetailedWrapper">
-                <DetailedWeather />
-              </div>
-            }
-          ></Route>
+          <Route path="currentWeather/:city" element={<DetailedWeather />}></Route>
         </Routes>
       </div>
     </div>

@@ -19,8 +19,8 @@ export const DetailedWeather = () => {
   console.log(currentWeather);
 
   return (
-    <>
-      <NavLink style={{ textDecoration: 'none', marginTop: '12px' }} to={`/`}>
+    <div className={s.DetailedWrapper}>
+      <NavLink style={{ textDecoration: 'none', marginTop: '16px' }} to={`/`}>
         <Button size="small" variant="outlined">
           назад
         </Button>
@@ -97,6 +97,6 @@ export const DetailedWeather = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
