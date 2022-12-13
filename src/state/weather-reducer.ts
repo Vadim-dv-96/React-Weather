@@ -13,7 +13,7 @@ export type DomainWeatherType = WeatherResponseType & {
 export const initialState = {
   cityNameRequest: [] as string[],
   weather: [] as WeatherStateType,
-  error: '',
+  error: null as null | string,
   loading: false,
 };
 
@@ -26,7 +26,6 @@ export const getWeatherCurrentCity = createAsyncThunk(
       return { resWeather, cityName: coordinates.local_names.ru };
     } catch (err) {
       const error: AxiosError = err as AxiosError;
-      console.log(error.message);
       return thunkApi.rejectWithValue(error.message);
     }
   }
@@ -40,7 +39,6 @@ export const getWeatherReload = createAsyncThunk(
       return { resWeather, cityName: coordinates.local_names.ru };
     } catch (err) {
       const error: AxiosError = err as AxiosError;
-      console.log(error.message);
       return thunkApi.rejectWithValue(error.message);
     }
   }
@@ -57,11 +55,12 @@ const slice = createSlice({
       }
     },
     deleteCityCard: (state, action: PayloadAction<{ cityName: string }>) => {
-      debugger;
       state.weather = state.weather.filter((weather) => {
         return weather.nameCityInCard !== action.payload.cityName;
       });
-      debugger;
+    },
+    setErrorAC(state, action: PayloadAction<{ error: null | string }>) {
+      state.error = action.payload.error;
     },
   },
   extraReducers(builder) {
@@ -100,5 +99,5 @@ const slice = createSlice({
   },
 });
 
-export const { getCurrentCityNameRequest, deleteCityCard } = slice.actions;
+export const { getCurrentCityNameRequest, deleteCityCard, setErrorAC } = slice.actions;
 export const weatherReducer = slice.reducer;

@@ -1,5 +1,5 @@
 import { TextField } from '@mui/material';
-import { RefObject, useState } from 'react';
+// import { RefObject, useState } from 'react';
 import { usePlacesWidget } from 'react-google-autocomplete';
 
 type AutoSearchPropsType = {

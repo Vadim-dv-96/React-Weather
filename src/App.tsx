@@ -16,6 +16,7 @@ import s_weatherCard from './components/WeatherCard/style.module.css';
 import { AutoSearch } from './components/AutocompleteSearch/AutoSearch';
 import { Route, Routes } from 'react-router-dom';
 import { DetailedWeather } from './components/DetailedWeather/DetailedWeather';
+import { ErrorSnackbar } from './components/ErrorSnackbar/ErrorSnackbar';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -59,6 +60,7 @@ function App() {
 
   return (
     <div className="App">
+      <ErrorSnackbar />
       <AppBar position="static">
         <Toolbar>
           <IconButton size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}></IconButton>
