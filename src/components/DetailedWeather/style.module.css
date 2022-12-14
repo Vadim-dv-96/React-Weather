@@ -19,28 +19,13 @@
   position: relative;
   z-index: 20;
 }
-.tempInfo,
-.pressureInfo,
-.windInfo,
-.precipitationInfo {
+.infoSvgWrapper {
   background-color: #dfeded;
   border-radius: 10px;
-}
-.tempInfoImg,
-.pressureInfoImg,
-.tempInfo,
-.pressureInfo,
-.windInfo,
-.windInfoImg,
-.precipitationInfo,
-.precipitationInfoImg {
   width: 25px;
   height: 25px;
 }
-.tempTitle,
-.pressureTitle,
-.windTitle,
-.precipitationTitle {
+.infoTitle {
   color: #5e6370;
   font-size: 15px;
   font-weight: 500;
@@ -48,22 +33,15 @@
 .feelsLike {
   font-size: 15px;
 }
-.tempInfoWrapper,
-.pressureInfoWrapper,
-.windInfoWrapper,
-.precipitationInfoWrapper {
+.infoWrapper {
   display: flex;
   gap: 20px;
   margin-top: 20px;
   flex-wrap: wrap;
 }
-.DetailedWrapper {
-  /* display: flex;
-  flex-direction: column;
-  align-items: center; */
+.detailedWrapper {
   max-width: 770px;
-  margin: 0 auto;
+  margin: 15px auto 0;
   padding-left: 10px;
   padding-right: 10px;
-  margin-top: 15px;
 }

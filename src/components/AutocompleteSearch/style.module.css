@@ -4,3 +4,7 @@
   display: flex;
   justify-content: center;
 }
+
+.textField {
+  width: 300px;
+}

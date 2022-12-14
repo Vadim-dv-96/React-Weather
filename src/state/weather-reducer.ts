@@ -3,7 +3,6 @@ import { AxiosError } from 'axios';
 import { GetCoordinatesAPI } from '../api/getCoordinates-api';
 import { GetWeatherAPI, WeatherResponseType } from '../api/getWeather-api';
 
-// export type WeatherStateType = Array<WeatherResponseType>;
 export type WeatherStateType = Array<DomainWeatherType>;
 
 export type DomainWeatherType = WeatherResponseType & {
@@ -86,10 +85,6 @@ const slice = createSlice({
     builder.addCase(getWeatherReload.fulfilled, (state, action) => {
       const newWeather = action.payload.resWeather;
       const domainNewWeather: DomainWeatherType = { ...newWeather, nameCityInCard: action.payload.cityName };
-      // let currentCity = state.weather.filter((w) => {
-      //   return w.nameCityInCard === action.payload.cityName;
-      // });
-      // currentCity = [domainNewWeather];
       state.weather = state.weather.map((weather) => {
         return weather.nameCityInCard === action.payload.cityName ? domainNewWeather : weather;
       });

@@ -13,8 +13,6 @@ type WeatherCardPropsType = {
 };
 
 export const WeatherCard = ({ weather, deleteCity, updateCurrentWeather }: WeatherCardPropsType) => {
-  // const isLoading = useAppSelector((state) => state.weather.loading);
-
   const time = new Date(weather.dt * 1000);
   const hours = time.getHours();
   const minutes = time.getMinutes();
@@ -29,65 +27,46 @@ export const WeatherCard = ({ weather, deleteCity, updateCurrentWeather }: Weath
   };
 
   return (
-    <>
-      {/* {isLoading ? (
-        <>
-          {[...new Array(3)].map((_, i) => (
-            <div style={{ width: '350px', height: '200px' }}>
-              <Skeleton
-                key={weather.id}
-                style={{ borderRadius: '20px' }}
-                sx={{ bgcolor: '#eff1f5' }}
-                variant="rectangular"
-                width={350}
-                height={200}
-              />
-            </div>
-          ))}
-        </>
-      ) : ( */}
-      <div className={s.card}>
-        <div className={s.btnWrapper}>
-          <div className={s.reloadBtn}>
-            <Tooltip arrow title="обновить">
-              <IconButton onClick={updateCurrentWeatherHandler}>
-                <RefreshIcon fontSize="inherit" />
-              </IconButton>
-            </Tooltip>
-          </div>
-          <div className={s.deleteBtn}>
-            <Tooltip arrow title="удалить">
-              <IconButton onClick={deleteCityHandler}>
-                <Delete fontSize="inherit" />
-              </IconButton>
-            </Tooltip>
-          </div>
+    <div className={s.card}>
+      <div className={s.btnWrapper}>
+        <div className={s.reloadBtn}>
+          <Tooltip arrow title="обновить">
+            <IconButton onClick={updateCurrentWeatherHandler}>
+              <RefreshIcon fontSize="inherit" />
+            </IconButton>
+          </Tooltip>
         </div>
-        <div className={s.thisDay}>
-          <div className={s.thisDayWrapper}>
-            <div className={s.thisDayLeft}>
-              <div className={s.thisDayTemp}>{Math.floor(weather.main.temp)}°</div>
-              <div className={s.thisDayCurrentDay}>Сегодня</div>
-            </div>
-
-            <div className={s.thisDayRight}>
-              <img src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`} alt="logo" />
-            </div>
-          </div>
-          <div className={s.thisDayTime}>
-            Время расчета данных о погоде: {hours}:{getString(minutes)}
-          </div>
-          <div className={s.thisDayCity}>Город: {weather.nameCityInCard} </div>
-        </div>
-        <div className={s.btnInfo}>
-          <NavLink style={{ textDecoration: 'none' }} to={`/currentWeather/${weather.nameCityInCard}`}>
-            <Button size="small" variant="outlined">
-              узнать больше
-            </Button>
-          </NavLink>
+        <div className={s.deleteBtn}>
+          <Tooltip arrow title="удалить">
+            <IconButton onClick={deleteCityHandler}>
+              <Delete fontSize="inherit" />
+            </IconButton>
+          </Tooltip>
         </div>
       </div>
-      {/* )} */}
-    </>
+      <div className={s.thisDay}>
+        <div className={s.thisDayWrapper}>
+          <div className={s.thisDayLeft}>
+            <div className={s.thisDayTemp}>{Math.floor(weather.main.temp)}°</div>
+            <div className={s.thisDayCurrentDay}>Сегодня</div>
+          </div>
+
+          <div className={s.thisDayRight}>
+            <img src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`} alt="logo" />
+          </div>
+        </div>
+        <div className={s.thisDayTime}>
+          Время расчета данных о погоде: {hours}:{getString(minutes)}
+        </div>
+        <div className={s.thisDayCity}>Город: {weather.nameCityInCard} </div>
+      </div>
+      <div className={s.btnInfo}>
+        <NavLink style={{ textDecoration: 'none' }} to={`/currentWeather/${weather.nameCityInCard}`}>
+          <Button size="small" variant="outlined">
+            узнать больше
+          </Button>
+        </NavLink>
+      </div>
+    </div>
   );
 };
