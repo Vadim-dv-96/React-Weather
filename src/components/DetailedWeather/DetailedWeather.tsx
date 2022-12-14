@@ -54,7 +54,7 @@ export const DetailedWeather = () => {
 
       <div className={s.detailCard}>
         <div className={s.cloud}>
-          <img className={s.cloudImg} src={require('../../img/cloud.png')} alt="cloud" />
+          <img className={s.cloudImg} src={require('../../assets/img/cloud.png')} alt="cloud" />
         </div>
         <div className={s.detailCardContent}>
           {weatherData &&
