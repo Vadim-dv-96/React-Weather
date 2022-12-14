@@ -52,7 +52,7 @@ export const WeatherCard = ({ weather, deleteCity, updateCurrentWeather }: Weath
           </div>
 
           <div className={s.thisDayRight}>
-            <img src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`} alt="logo" />
+            <img src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`} alt="logo" />
           </div>
         </div>
         <div className={s.thisDayTime}>
